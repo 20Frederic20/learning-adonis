@@ -9,9 +9,8 @@ export default class extends BaseSchema {
       table.uuid('uuid').notNullable().unique()
       table.string('slug').notNullable().unique()
       table.string('name').notNullable()
-      table.integer('created_by').unsigned().notNullable()
-      table.integer('updated_by').unsigned().notNullable()
-
+      table.integer('created_by').unsigned().nullable()
+      table.integer('updated_by').unsigned().nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
