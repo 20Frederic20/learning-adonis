@@ -11,7 +11,7 @@
 
 <body>
   @include('partials/header')
-  <form class="m-16 p-16" action="/users" method="POST">
+  <form class="m-16 p-16" action="/categories" method="POST">
     {{ csrfField() }}
     <div class="space-y-12 m-auto">
       <div class="w-1/2 m-auto">
@@ -19,34 +19,17 @@
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
           <div class="">
             <div class="sm:col-span">
-              <label for="first_name" class="block text-sm font-medium leading-6 text-gray-900">Prenom</label>
+              <label for="slug" class="block text-sm font-medium leading-6 text-gray-900">slug</label>
               <div class="mt-2">
-                <input type="text" name="first_name" id="first_name" autocomplete="given-name"
+                <input type="text" name="slug" id="slug" autocomplete="given-name"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </div>
             </div>
 
             <div class="sm:col-span">
-              <label for="last_name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
+              <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
               <div class="mt-2">
-                <input type="text" name="last_name" id="last_name" autocomplete="family-name"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="sm:col-span">
-              <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Emails</label>
-              <div class="mt-2">
-                <input id="email" name="email" type="email" autocomplete="email"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              </div>
-            </div>
-
-            <div class="sm:col-span">
-              <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
-              <div class="mt-2">
-                <input id="password" name="password" type="password" autocomplete="password"
+                <input type="text" name="name" id="name" autocomplete="family-name"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </div>
             </div>
