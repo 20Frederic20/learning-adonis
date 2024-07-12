@@ -17,15 +17,17 @@
       <table class="border-collapse border border-slate-500">
         <thead>
           <th class="border border-slate-600">Id</th>
-          <th class="border border-slate-600">Slug</th>
-          <th class="border border-slate-600">Nom</th>
+          <th class="border border-slate-600">title</th>
+          <th class="border border-slate-600">content</th>
+          <th class="border border-slate-600">categorie</th>
         </thead>
         <tbody>
-          @each( value in categories)
+          @each( value in articles )
           <tr>
             <td class="border border-slate-700"> {{ value.id }} </td>
-            <td class="border border-slate-700"> {{ value.slug }} </td>
-            <td class="border border-slate-700"> {{ value.name }} </td>
+            <td class="border border-slate-700"> {{ value.ttle }} </td>
+            <td class="border border-slate-700"> {{ value.content }} </td>
+            <td class="border border-slate-700"> {{ value.category.name }} </td>
           </tr>
           @end
         </tbody>

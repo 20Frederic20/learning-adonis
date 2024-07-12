@@ -108,11 +108,34 @@ router
   .as('categories.store')
 
 router
-  .get('/articles/create', async ({ view }: HttpContext) => {
-    const articles = await Article.all()
+  .get('/articles', async ({ view }: HttpContext) => {
+    const articles = await Article.query().preload('category')
     view.share({
       articles: articles,
+    })
+    console.log(articles)
+    return view.render('pages/articles/index')
+  })
+  .as('articles.index')
+
+router
+  .get('/articles/create', async ({ view }: HttpContext) => {
+    const categories = await Category.all()
+    view.share({
+      categories: categories,
     })
     return view.render('pages/articles/create')
   })
   .as('articles.create')
+
+router
+  .post('/articles', async ({ auth, request, response }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
+    let data = request.only(['title', 'content', 'categoryId'])
+    data['createdBy'] = user.id
+    await Article.create(data)
+    return response.redirect('/articles')
+  })
+  .use(middleware.auth())
+  .as('articles.store')

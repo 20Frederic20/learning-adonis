@@ -2,7 +2,9 @@ import { DateTime } from 'luxon'
 import User from '#models/user'
 import { randomUUID } from 'node:crypto'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import { BaseModel, column, beforeCreate, belongsTo } from '@adonisjs/lucid/orm'
+import { BaseModel, column, beforeCreate, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Article from './article.js'
 
 export default class Category extends BaseModel {
   @column({ isPrimary: true })
@@ -39,4 +41,7 @@ export default class Category extends BaseModel {
   static assignUuid(category: Category) {
     category.uuid = randomUUID()
   }
+
+  @hasMany(() => Article)
+  declare categories: HasMany<typeof Article>
 }

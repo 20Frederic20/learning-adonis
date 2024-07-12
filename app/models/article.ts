@@ -3,6 +3,7 @@ import User from '#models/user'
 import { randomUUID } from 'node:crypto'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { BaseModel, column, belongsTo, beforeCreate } from '@adonisjs/lucid/orm'
+import Category from './category.js'
 
 export default class Article extends BaseModel {
   @column({ isPrimary: true })
@@ -12,16 +13,13 @@ export default class Article extends BaseModel {
   declare uuid: string
 
   @column()
-  declare tile: string
+  declare title: string
 
   @column()
   declare content: string
 
-  // @belongsTo(() => User)
-  // declare createdBy: BelongsTo<typeof User>
-
-  // @belongsTo(() => User)
-  // declare updatedBy: BelongsTo<typeof User>
+  @column()
+  declare categoryId: number
 
   @column({ columnName: 'created_by' })
   declare createdBy: number
@@ -34,6 +32,9 @@ export default class Article extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(() => Category)
+  declare category: BelongsTo<typeof Category>
 
   @beforeCreate()
   static assignUuid(article: Article) {

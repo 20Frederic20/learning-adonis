@@ -24,4 +24,35 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   SESSION_DRIVER: Env.schema.enum(['cookie', 'memory'] as const),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring database configuration
+  |----------------------------------------------------------
+  */
+  DB_CONNECTION: Env.schema.enum(['sqlite', 'postgres'] as const),
+  DB_HOST: Env.schema.string(),
+  DB_PORT: Env.schema.number(),
+  DB_USER: Env.schema.string(),
+  DB_PASSWORD: Env.schema.string(),
+  DB_DATABASE: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring Redis configuration
+  |----------------------------------------------------------
+  */
+  // REDIS_HOST: Env.schema.string(),
+  // REDIS_PORT: Env.schema.number(),
+  // REDIS_PASSWORD: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring email configuration
+  |----------------------------------------------------------
+  */
+  // EMAIL_DRIVER: Env.schema.enum(['smtp'] as const),
+  // EMAIL_HOST: Env.schema.string(),
+  // EMAIL_PORT: Env.schema.number(),
+  // EMAIL_USERNAME: Env.schema.string(),
 })
