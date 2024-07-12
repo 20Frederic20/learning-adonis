@@ -12,6 +12,7 @@ import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { HttpContext } from '@adonisjs/core/http'
 import Category from '#models/category'
+import Article from '#models/article'
 router.on('/').render('pages/home')
 
 router
@@ -76,10 +77,16 @@ router
   .as('users.logout')
 
 router
-  .get('/categories', async ({ view }: HttpContext) => {
-    const categories = await Category.all()
+  .get('/categories', async ({ view, auth }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
+    let categories = await Category.all()
+    if (user) {
+      categories = (await Category.query()).filter((c) => c.createdBy === user.id)
+    }
     return view.render('pages/categories/index', { categories: categories })
   })
+  .use(middleware.auth())
   .as('categories.index')
 
 router
@@ -89,9 +96,23 @@ router
   .as('categories.create')
 
 router
-  .post('/categories', async ({ request, response }: HttpContext) => {
+  .post('/categories', async ({ auth, request, response }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
     let data = request.only(['slug', 'name'])
+    data['createdBy'] = user.id
     await Category.create(data)
-    return response.redirect('/index')
+    return response.redirect('/categories')
   })
+  .use(middleware.auth())
   .as('categories.store')
+
+router
+  .get('/articles/create', async ({ view }: HttpContext) => {
+    const articles = await Article.all()
+    view.share({
+      articles: articles,
+    })
+    return view.render('pages/articles/create')
+  })
+  .as('articles.create')
