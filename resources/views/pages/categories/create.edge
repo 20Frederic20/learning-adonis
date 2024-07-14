@@ -11,17 +11,21 @@
 
 <body>
   @include('partials/header')
-  <form class="m-16 p-16" action="/categories" method="POST">
+  <form class="m-16 p-16"
+    action="{{ category ? route('categories.update', { id: category.id }) + '?_method=PUT' : route('categories.store') }}"
+    method="POST">
     {{ csrfField() }}
     <div class="space-y-12 m-auto">
       <div class="w-1/2 m-auto">
-        <h2 class="text-base font-semibold leading-7 text-gray-900 text-center">Inscription</h2>
+        <h2 class="text-base font-semibold leading-7 text-gray-900 text-center">{{ category ? 'Edition Catégorie' :
+          'Ajout Catégorie' }}</h2>
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
           <div class="">
             <div class="sm:col-span">
               <label for="slug" class="block text-sm font-medium leading-6 text-gray-900">slug</label>
               <div class="mt-2">
                 <input type="text" name="slug" id="slug" autocomplete="given-name"
+                  value="{{ category ? category.slug : '' }}"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </div>
             </div>
@@ -30,6 +34,7 @@
               <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
               <div class="mt-2">
                 <input type="text" name="name" id="name" autocomplete="family-name"
+                  value="{{ category ? category.name : '' }}"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </div>
             </div>

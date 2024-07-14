@@ -17,7 +17,7 @@
       </button>
     </div>
     <div class="hidden lg:flex lg:gap-x-12">
-      <div class="relative">
+      {{-- <div class="relative">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           aria-expanded="false">
           Articles
@@ -27,8 +27,8 @@
               clip-rule="evenodd" />
           </svg>
         </button>
-      </div>
-
+      </div> --}}
+      <a href="{{ route('articles.index') }}" class="text-sm font-semibold leading-6 text-gray-900">Articles</a>
       <a href="{{ route('categories.index') }}" class="text-sm font-semibold leading-6 text-gray-900">Catégories</a>
       <a href="{{ route('about') }}" class="text-sm font-semibold leading-6 text-gray-900">A propos</a>
       <a href="{{ route('contact') }}" class="text-sm font-semibold leading-6 text-gray-900">Contactez-nous</a>

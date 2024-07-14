@@ -11,20 +11,28 @@
 
 <body>
   @include('partials/header')
-  <div class="container">
-    <div class="flex flex-row-reverse">
-      <div class="">
-        <button type="button"
-          class="mb-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><a
-            href="{{ route('articles.create') }}"
-            class="text-sm font-semibold leading-6 text-white">Ajouter</a></button>
-      </div>
+  <div class="container px-6 mx-auto grid">
+    <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <table>
+        <thead>
+          <th>Id</th>
+          <th>Slug</th>
+          <th>Nom</th>
+        </thead>
+        <tbody>
+          <tr class="m-auto">
+            <td class="text-center"> {{ category.id }} </td>
+            <td class="text-center"> {{ category.slug }} </td>
+            <td class="text-center"> {{ category.name }} </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-      @each( value in articles )
+      @each( value in category.articles )
       <div class="min-w-0 p-4 rounded-lg shadow-xs bg-slate-300">
         <h5 class="mb-4 font-semibold">
-          <a href="{{ route('categories.show', {id:value.category.id}) }}">#{{ value.category.name }}</a>
+          <a>#{{ category.name }}</a>
         </h5>
         <h4 class="mb-4 font-semibold text-white-60">
           {{ value.ttle }}

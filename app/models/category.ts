@@ -43,5 +43,5 @@ export default class Category extends BaseModel {
   }
 
   @hasMany(() => Article)
-  declare categories: HasMany<typeof Article>
+  declare articles: HasMany<typeof Article>
 }

@@ -90,9 +90,22 @@ router
   .as('categories.index')
 
 router
-  .get('/categories/create', async (ctx) => {
-    return ctx.view.render('pages/categories/create')
+  .get('/categories/:id/show', async ({ view, auth, params }: HttpContext) => {
+    await auth.authenticate()
+    const category = await Category.query()
+      .where('id', params.id)
+      .preload('articles') // Precharger les articles associés
+      .firstOrFail()
+    return view.render('pages/categories/show', { category: category })
   })
+  .use(middleware.auth())
+  .as('categories.show')
+
+router
+  .get('/categories/create', async ({ view }: HttpContext) => {
+    return view.render('pages/categories/create', { category: null })
+  })
+  .use(middleware.auth())
   .as('categories.create')
 
 router
@@ -108,25 +121,76 @@ router
   .as('categories.store')
 
 router
+  .get('/categories/:id/edit', async ({ view, params }: HttpContext) => {
+    const category = await Category.findOrFail(params.id)
+    view.share({
+      category: category,
+    })
+    return view.render('pages/categories/create')
+  })
+  .use(middleware.auth())
+  .as('categories.edit')
+
+router
+  .put('/categories/:id/update', async ({ request, response, params }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
+    let data = request.only(['slug', 'name'])
+    data['updatedBy'] = user.id
+    await Category.query().where('id', params.id).update(data)
+    return response.redirect('/categories')
+  })
+  .use(middleware.auth())
+  .as('categories.update')
+
+router
   .get('/articles', async ({ view }: HttpContext) => {
     const articles = await Article.query().preload('category')
     view.share({
       articles: articles,
     })
-    console.log(articles)
     return view.render('pages/articles/index')
   })
+  .use(middleware.auth())
   .as('articles.index')
 
 router
   .get('/articles/create', async ({ view }: HttpContext) => {
     const categories = await Category.all()
     view.share({
+      article: null,
       categories: categories,
     })
     return view.render('pages/articles/create')
   })
+  .use(middleware.auth())
   .as('articles.create')
+
+router
+  .get('/articles/:id/edit', async ({ view, params, auth }: HttpContext) => {
+    await auth.authenticate()
+    let categories = await Category.all()
+    const article = await Article.findOrFail(params.id)
+    view.share({
+      categories: categories,
+      article: article,
+    })
+    return view.render('pages/articles/create')
+  })
+  .use(middleware.auth())
+  .as('articles.edit')
+
+router
+  .put('/articles/:id/update', async ({ request, response, params, auth }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
+    let data = request.only(['title', 'content', 'categoryId'])
+    data['updatedBy'] = user.id
+    await Article.query().where('id', params.id).update(data)
+    return response.redirect('/articles')
+  })
+  .use(middleware.auth())
+  .as('articles.update')
 
 router
   .post('/articles', async ({ auth, request, response }: HttpContext) => {
