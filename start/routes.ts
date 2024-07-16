@@ -155,6 +155,18 @@ router
   .as('articles.index')
 
 router
+  .get('/articles/:id/show', async ({ view, params, auth }: HttpContext) => {
+    await auth.authenticate()
+    const article = await Article.query().where('id', params.id).preload('category').firstOrFail()
+    view.share({
+      article: article,
+    })
+    return view.render('pages/articles/show')
+  })
+  .use(middleware.auth())
+  .as('articles.show')
+
+router
   .get('/articles/create', async ({ view }: HttpContext) => {
     const categories = await Category.all()
     view.share({
