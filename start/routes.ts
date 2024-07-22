@@ -13,6 +13,7 @@ import router from '@adonisjs/core/services/router'
 import { HttpContext } from '@adonisjs/core/http'
 import Category from '#models/category'
 import Article from '#models/article'
+import Comment from '#models/comment'
 router.on('/').render('pages/home')
 
 router
@@ -157,7 +158,11 @@ router
 router
   .get('/articles/:id/show', async ({ view, params, auth }: HttpContext) => {
     await auth.authenticate()
-    const article = await Article.query().where('id', params.id).preload('category').firstOrFail()
+    const article = await Article.query()
+      .where('id', params.id)
+      .preload('category')
+      .preload('comments')
+      .firstOrFail()
     view.share({
       article: article,
     })
@@ -215,3 +220,16 @@ router
   })
   .use(middleware.auth())
   .as('articles.store')
+
+router
+  .post('/articles/:id/comments', async ({ auth, request, response, params }: HttpContext) => {
+    await auth.authenticate()
+    const user = await auth.getUserOrFail()
+    let data = request.only(['comment'])
+    data['articleId'] = params.id
+    data['createdBy'] = user.id
+    await Comment.create(data)
+    return response.redirect(`/articles/${params.id}/show`)
+  })
+  .use(middleware.auth())
+  .as('comments.store')

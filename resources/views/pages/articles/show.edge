@@ -28,6 +28,14 @@
         </p>
       </div>
     </div>
+    <form class="block mt-4 text-sm" action="{{ route('comments.store', { id: article.id }) }}" method="POST">
+      {{ csrfField() }}
+      <span class="">Commentaire</span>
+      <textarea class="block w-full mt-1 text-sm border border-neutral-950" rows="3"
+        placeholder="Enter some long form content." name="comment"></textarea>
+      <button type="submit"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Commenter</button>
+    </form>
   </div>
 </body>
 
