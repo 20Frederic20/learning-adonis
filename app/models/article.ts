@@ -25,6 +25,9 @@ export default class Article extends BaseModel {
   @column({ columnName: 'created_by' })
   declare createdBy: number
 
+  @column()
+  declare image: string
+
   @column({ columnName: 'updated_by' })
   declare updatedBy: number
 

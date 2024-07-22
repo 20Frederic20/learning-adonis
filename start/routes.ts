@@ -14,6 +14,9 @@ import { HttpContext } from '@adonisjs/core/http'
 import Category from '#models/category'
 import Article from '#models/article'
 import Comment from '#models/comment'
+import app from '@adonisjs/core/services/app'
+import { cuid } from '@adonisjs/core/helpers'
+
 router.on('/').render('pages/home')
 
 router
@@ -214,7 +217,23 @@ router
     await auth.authenticate()
     const user = await auth.getUserOrFail()
     let data = request.only(['title', 'content', 'categoryId'])
+    const image = request.file('image', {
+      size: '2mb',
+      extnames: ['jpg', 'png', 'jpeg'],
+    })
+
+    if (image) {
+      await image.move(app.makePath('uploads/articles/files'), {
+        name: `${cuid()}.${image.extname}`,
+      })
+      data['image'] = `/uploads/articles/files/${image.fileName}`
+    } else {
+      // Handle the case where no image is uploaded
+      data['image'] = null
+    }
     data['createdBy'] = user.id
+    data['createdBy'] = user.id
+    console.log(data)
     await Article.create(data)
     return response.redirect('/articles')
   })

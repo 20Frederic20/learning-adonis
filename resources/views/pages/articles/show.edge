@@ -24,10 +24,24 @@
           {{ article.title }}
         </h4>
         <p class="">
+          <img class="" alt="" src="{{ article.image}}">
+        </p>
+        <p class="">
           {{ article.content }}
         </p>
+
       </div>
     </div>
+
+    @each(comment in article.comments)
+    {{-- @include('partials/comment') --}}
+    <p class="ps-8">
+      {{ comment.comment }}
+    </p>
+    @else
+    <p> This post has not received any comments </p>
+    @end
+
     <form class="block mt-4 text-sm" action="{{ route('comments.store', { id: article.id }) }}" method="POST">
       {{ csrfField() }}
       <span class="">Commentaire</span>
