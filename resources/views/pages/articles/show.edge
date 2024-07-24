@@ -37,6 +37,17 @@
     {{-- @include('partials/comment') --}}
     <p class="ps-8">
       {{ comment.comment }}
+      <button type="submit"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Répondre</button>
+    <form class="mt-4 text-sm" action="{{ route('comments.store', { id: article.id }) }}" method="POST">
+      {{ csrfField() }}
+      <span class="">Commentaire</span>
+      <input type="hidden" name="parentId" value="{{comment.id}}">
+      <textarea class="block w-full mt-1 text-sm border border-neutral-950" rows="3"
+        placeholder="Enter some long form content." name="comment"></textarea>
+      <button type="submit"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Commenter</button>
+    </form>
     </p>
     @else
     <p> This post has not received any comments </p>

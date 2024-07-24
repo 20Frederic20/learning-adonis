@@ -244,7 +244,7 @@ router
   .post('/articles/:id/comments', async ({ auth, request, response, params }: HttpContext) => {
     await auth.authenticate()
     const user = await auth.getUserOrFail()
-    let data = request.only(['comment'])
+    let data = request.only(['comment', 'parentId'])
     data['articleId'] = params.id
     data['createdBy'] = user.id
     await Comment.create(data)
