@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> AdonisJS - A fully featured web framework for Node.js </title>
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body>
+  @include('partials/header')
+  <div class="container">
+    <div class="flex flex-row-reverse">
+      <div class="">
+        <button type="button"
+          class="mb-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><a
+            href="{{ route('articles.create') }}"
+            class="text-sm font-semibold leading-6 text-white">Ajouter</a></button>
+      </div>
+    </div>
+    <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      @each( value in articles )
+      <div class="min-w-0 p-4 rounded-lg shadow-xs bg-slate-300">
+        <h5 class="mb-4 font-semibold">
+          <a href="{{ route('categories.show', {id:value.category.id}) }}">#{{ value.category.name }}</a>
+        </h5>
+        <h4 class="mb-4 font-semibold text-white-60">
+          {{ value.ttle }}
+        </h4>
+        <p class="">
+          {{ value.content }}
+        </p>
+      </div>
+      @end
+    </div>
+  </div>
+</body>
+
+</html>

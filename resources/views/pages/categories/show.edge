@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> AdonisJS - A fully featured web framework for Node.js </title>
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body>
+  @include('partials/header')
+  <div class="container px-6 mx-auto grid">
+    <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <table>
+        <thead>
+          <th>Id</th>
+          <th>Slug</th>
+          <th>Nom</th>
+        </thead>
+        <tbody>
+          <tr class="m-auto">
+            <td class="text-center"> {{ category.id }} </td>
+            <td class="text-center"> {{ category.slug }} </td>
+            <td class="text-center"> {{ category.name }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      @each( value in category.articles )
+      <div class="min-w-0 p-4 rounded-lg shadow-xs bg-slate-300">
+        <h5 class="mb-4 font-semibold">
+          <a>#{{ category.name }}</a>
+        </h5>
+        <h4 class="mb-4 font-semibold text-white-60">
+          {{ value.ttle }}
+        </h4>
+        <p class="">
+          {{ value.content }}
+        </p>
+      </div>
+      @end
+    </div>
+  </div>
+</body>
+
+</html>
