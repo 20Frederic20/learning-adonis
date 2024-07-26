@@ -3,6 +3,7 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { BaseModel, column, belongsTo, beforeCreate } from '@adonisjs/lucid/orm'
 import Article from './article.js'
 import { randomUUID } from 'node:crypto'
+import User from './user.js'
 
 export default class Comment extends BaseModel {
   @column({ isPrimary: true })
@@ -34,6 +35,9 @@ export default class Comment extends BaseModel {
 
   @belongsTo(() => Article)
   declare article: BelongsTo<typeof Article>
+
+  @belongsTo(() => User, { foreignKey: 'createdBy' })
+  declare author: BelongsTo<typeof User>
 
   @beforeCreate()
   static assignUuid(comment: Comment) {

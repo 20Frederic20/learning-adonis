@@ -164,11 +164,15 @@ router
     const article = await Article.query()
       .where('id', params.id)
       .preload('category')
-      .preload('comments')
+      .preload('comments', (query) => {
+        query.preload('author')
+      })
+      .preload('author')
       .firstOrFail()
     view.share({
       article: article,
     })
+    console.log(article.comments)
     return view.render('pages/articles/show')
   })
   .use(middleware.auth())

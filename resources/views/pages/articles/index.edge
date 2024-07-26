@@ -27,7 +27,7 @@
           <a href="{{ route('categories.show', {id:value.category.id}) }}">#{{ value.category.name }}</a>
         </h5>
         <h4 class="mb-4 font-semibold text-white-60">
-          {{ value.ttle }}
+          <a href="{{ route('articles.show', {id:value.id}) }}">{{ value.title }}</a>
         </h4>
         <p class="">
           {{ value.content }}

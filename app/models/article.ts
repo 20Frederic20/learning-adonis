@@ -5,6 +5,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { BaseModel, column, belongsTo, beforeCreate, hasMany } from '@adonisjs/lucid/orm'
 import Category from './category.js'
 import Comment from './comment.js'
+import User from './user.js'
 
 export default class Article extends BaseModel {
   @column({ isPrimary: true })
@@ -39,6 +40,9 @@ export default class Article extends BaseModel {
 
   @belongsTo(() => Category)
   declare category: BelongsTo<typeof Category>
+
+  @belongsTo(() => User, { foreignKey: 'createdBy' })
+  declare author: BelongsTo<typeof User>
 
   @beforeCreate()
   static assignUuid(article: Article) {

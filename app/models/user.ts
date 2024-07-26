@@ -43,7 +43,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   }
 
   @hasMany(() => Category, {
-    foreignKey: 'created_by', // defaults to userId
+    foreignKey: 'created_by',
   })
   declare categories: HasMany<typeof Category>
 }
